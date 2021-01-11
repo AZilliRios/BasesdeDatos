@@ -1,0 +1,146 @@
+﻿TWEETS parcial 2
+
+Usuarios(idusuario, usuario, email, passwd, telefono, nombre, fecha_alta ) 
+Tweets (idtweet, tweet, urlimagen, fecha_post )
+Los Usuarios escribe Tweets
+
+
+1.- create database <user>_tweets
+Sql:
+create table usuarios(idUsuario int, usuario varchar(50), email varchar(50), psw varchar(50), telefono varchar(50), nombre varchar(50), apellidoPat varchar(50), apellidoMat varchar(50), fechaAlta TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP);
+
+create table tweets(idTweet int, idUsuario int, tweet varchar(500), urlImagen varchar(100), fechaPost TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP);
+
+
+
+2.- insert 10 usuarios con fecha de alta (tipo timestamp)
+Sql:
+
+insert into usuarios values(1, 'arturozr', 'azillirios@gmail.com', 'arturo123', '2712072596', 'arturo', 'zilli', 'rios');
+insert into usuarios values(2, 'isra123', 'isramanuel@gmail.com ', 'israjiose', '274554667', 'usra', 'martinez', 'soza');
+insert into usuarios values(3, 'nayosantuni', 'nayo123@gmail.com', 'nayoelmacizo', '27168587744', 'nayo', 'santos', 'bernardo');
+insert into usuarios values(4, 'oswaldino', 'osw@gmail.com', 'osw66', '2718998844', 'oswaldo', 'corona', 'perez');
+insert into usuarios values(5, 'jumbospizza', 'jp@gmail.com', 'jumboslameramie', '334564433', 'jumbos', 'pizza', 'orizaba');
+insert into usuarios values(6, 'monse', 'monse12345@gmail.com', 'monsino', '342434234', 'monse', 'meneses', 'conde');
+insert into usuarios values(7, 'minielchapo', 'chapo@gmail.com', 'elmerominimota', '234778844', 'irving', 'saul', 'monses');
+insert into usuarios values(8, 'leopa', 'elmeroleopa@gmail.com', 'elmeromacizodelleo', '233445667', 'leonardo', 'martinez', 'sosa');
+insert into usuarios values(9, 'adosfito', 'adfo124@gmail.com', 'adofsito', '34234343243', 'adolfo', 'centeno', 'lopez');
+insert into usuarios values(10, 'elapestoso', 'popo123@gmail.com', 'noemarin123', '434343434', 'noe', 'marin', 'santos');
+
+
+
+
+
+
+
+
+3.- insert 20 tweets con fecha de post (tipo timestamp)
+Sql:
+insert into tweets values(2, 1, 'Reprobe mi examen jajaja, f en el chat', 'www.imgreprobadocom');
+insert into tweets values(3, 2, 'Que mal que hagan fraude en EUU, pense que solo pasaba en mexico', 'www.eleccioneu2020.com');
+insert into tweets values(4, 5, 'Aburrido, quien para un taco de burra', 'www.tacodeburra.com');
+insert into tweets values(5, 10, 'aca en jumbos pizza con mi compa en israel, ojala page la cuenta', 'www.jumbos.com');
+insert into tweets values(6, 8, 'me di de baja, pero de la vida', 'www.vida.com');
+insert into tweets values(7, 4, 'quien para un caldo de maciza', 'www.maciza.com');
+insert into tweets values(8, 1, 'quien jala manana a hackar jumbos pizza', 'www.anonymous.com');
+insert into tweets values(9, 6, 'mi primer track, 500 visitas, se vienen cosas grandes', 'www.hiphop.com');
+insert into tweets values(10, 3, 'pero que haiga morrs chidas', 'www.chidollio.com');
+
+Querys
+
+4.- numero de usuarios
+Sql:
+select count (*)as idUsuario from usuarios;
+
+
+
+5.- numero de tweets por usuario
+Sql:
+
+select count(*), idUsuario from tweets group by idUsuario;
+
+
+8.- todos los datos de usuarios dados de alta el mes de noviembre
+Sql:
+
+select * from usuarios where extract(MONTH from fechaalta)=11;
+
+
+
+9.- total tweets del periodo 2020
+Sql:
+
+select count(*) from tweets where extract(YEAR from fechapost)=2020
+
+
+
+10.- total de tweets que contengan '%SOFTWARE%' del segundos semestre del 2020
+Sql:
+
+
+
+
+11.- nombre de usuario, tweet y fecha_post
+Sql:
+
+select idUsuario, tweet, fechapost from tweets;
+
+
+
+12.- nombres de usuario que tengan tweets del día de hoy 
+Sql:
+
+select usuario from usuarios where fechapost = 23/11/2020;
+
+
+13.- nombres de usuario que tengan tweets que contengan '%SOFTWARE%' y del mes actual
+Sql:
+
+
+
+14.- numero de tweets por usuarios, pero solo si tiene mas de 2 
+Sql:
+
+select idUsuario, count() from tweets group by idtweet having count() > 2;
+
+
+
+15.- nombre usuario, tweet, fecha_post, url_imagen, solo de tweets del mes actual
+Sql:
+
+select idUsuario, tweet, fechapost, urlimagen from tweets where extract(MONTH from fecharegistro)=11;
+
+16.- nombre de usuarios sin tweets
+Sql:
+
+select idUsuario,count() from tweets group by idtweet having count() =0;
+
+
+17.- tweets del mes actual ordenados por usuario y fecha en orden descendente
+Sql:
+
+SELECT  tweets FROM  tweets extract(Month from fecharegistro)=11 ORDER BY idUsuario,fechapost DESC;
+
+
+
+
+
+
+
+18.- tweets y fecha_post de usuarios de gmail
+Sql:
+
+SELECT tweets,fecha FROM tweets WHERE email LIKE '%gmail%';
+
+
+19.- tweets y fecha_post de usuarios de que no sean de gmail
+Sql:
+
+SELECT tweets,fechapost FROM tweets WHERE email != '%gmail%';
+
+
+
+20.- nombre de usuarios, tweet y fecha_post, pero solo de usuarios donde su email contenga '%live.com%'
+
+select nombre from usuarios where idUsuario in (select idUsuario from usuarios where email like '%live.com%');
+
